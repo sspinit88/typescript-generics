@@ -156,7 +156,7 @@ class DataCollection<T extends { id: string }> {
 }
 
 /* - 8 - */
-/// получаем значения по ключу
+// получаем значения по ключу
 
 function getValue<T extends object, U extends keyof T>(obj: T, prop: U): T[U] {
   return obj[prop];
@@ -170,3 +170,40 @@ function getValue<{ name: string; }, "name">
 */
 
 /* - 9 - */
+// получаем ключ по значению
+
+function getKey<T extends object, U extends keyof T>(
+  obj: T,
+  val: T[U]
+): U | null {
+  const key = (Object.keys(obj) as Array<U>).find((k) => obj[k] === val);
+  return key || null;
+}
+
+getKey(
+  {
+    name: 'Max',
+    age: 100,
+  },
+  'Max'
+);
+
+/* - 10 - */
+// Типизация функций с множеством дженериков.
+
+function patchField<O extends object, K extends keyof O, V extends O[K]>(
+  obj: O,
+  field: K,
+  val: V
+) {}
+
+patchField({ f: 1 }, 'f', 3);
+
+/* - 11 - */
+// Значения по умолчанию для generic
+
+function format<T = string>(s?: T): T | undefined {
+  return s;
+}
+
+format();
